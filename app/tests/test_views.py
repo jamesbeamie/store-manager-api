@@ -33,6 +33,12 @@ class TestProducts(TestApi):
       data=json.dumps(self.test_product), 
       content_type='application/json')
     self.assertEqual( response.status_code, 201)
+
+  def test_specific_product(self):
+    """Test if specified product is returned and returns success code,200"""
+    response = self.client().get('/api/v1/products/1', 
+      content_type='application/json')
+    self.assertEqual( response.status_code, 200)
     
 if __name__ == "__main__":
   unittest.main()

@@ -24,6 +24,13 @@ class Products(object):
         res = self.products_list.append(self.product)
         return jsonify({"message": "New product added."}), 201
 
+    
+    def specific_product(self, product_id):
+        """The function returns a specific order, specified by id"""
+        for product in self.products_list:
+            if product['product_id'] == product_id:
+                return jsonify({"Product":product}), 200
+
 
 
 
