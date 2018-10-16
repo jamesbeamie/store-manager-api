@@ -15,7 +15,7 @@
 - You need to install Flask, a Server-side framework. _pip install Flask_
 - PyTest, a python testing framework, _pip install PyTest_
 ## Running the tests
-- On your loocal branch, navigate to the root folder and run _pytest -v_ for tests.
+- On your local branch, navigate to the root folder and run _pytest -v_ for tests.
 - To run tests with coverage, run _--cov=app/v1/_ to cover everything in v1 folder
 ## Deployment
 - Deploy the api on heroku.
