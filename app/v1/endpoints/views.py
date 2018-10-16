@@ -46,3 +46,9 @@ class SalesViews():
 		quantity = data['quantity']
 		result = sales_class.create_record(attendant, product, price, quantity)
 		return result
+
+	@api.route('/sales/<int:sales_id>', methods=['GET'])
+	def specific_sales(sales_id, **kwargs):
+		"""method to return a specific sales record"""
+		result = sales_class.specific_record(sales_id)
+		return result
