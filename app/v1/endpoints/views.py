@@ -1,8 +1,9 @@
 
 from flask import Flask, request, jsonify, make_response
 from . import api
-from .models import Products
+from .models import Products, Sales
 product_class = Products()
+sales_class = Sales()
 
 
 class ProductsViews():
@@ -26,3 +27,10 @@ class ProductsViews():
 		"""method to return a specific product"""
 		result = product_class.specific_product(product_id)
 		return result
+
+class SalesViews():
+	@api.route('/sales', methods=["GET"])
+	def sales():
+	  """ Method to see all products."""
+	  sales_records = sales_class.all_sales()
+	  return sales_records
