@@ -1,3 +1,5 @@
+
+[![Build Status](https://travis-ci.org/jamesbeamie/store-manager-api.svg?branch=master)](https://travis-ci.org/jamesbeamie/store-manager-api)
 ## Store manager
 - Store manager is an application for managing a boutique.The store deals in a wide range of clothes.
 - The owner of the store is the primary admin with the rights to add new product to inventory, view all sales records, edit and delete an existing product.
@@ -11,7 +13,7 @@
 
 ## Prerequisites
 - You need to install Flask, a Server-side framework. _pip install Flask_
-- PyTest, a python testing framework, _pip iknstall PyTest_
+- PyTest, a python testing framework, _pip install PyTest_
 ## Running the tests
 - On your loocal branch, navigate to the root folder and run _pytest -v_ for tests.
 - To run tests with coverage, run _--cov=app/v1/_ to cover everything in v1 folder
