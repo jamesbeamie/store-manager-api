@@ -21,7 +21,7 @@
 - Deploy the api on heroku.
 - Install gunicorn, and specify the application name in the procfile.
 ## Versioning
-- V1 is version one oof the application
+- V1 is version one of the application
 ## Author
 - James Wafula
 
