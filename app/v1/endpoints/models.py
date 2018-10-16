@@ -13,7 +13,7 @@ class Products(object):
         return make_response(jsonify({"message":"No products."}), 200)
 
     def create_product(self, product_name, price, quantity):
-        """Create order"""
+        """Create record"""
         self.product = {}
         self.product_id = len(self.products_list)
 
@@ -41,6 +41,19 @@ class Sales(object):
         if len(self.sales_list) > 0:
             return make_response(jsonify({"Sales": self.sales_list}))
         return make_response(jsonify({"message":"No sales made."}), 200)
+
+    def create_record(self, attendant, product, price, quantity):
+        """Create record"""
+        self.record = {}
+        self.sales_id = len(self.sales_list)
+
+        self.record['sales_id'] = self.sales_id + 1
+        self.record['attendant'] = attendant
+        self.record['product'] = product
+        self.record['price'] = price
+        self.record['quantity'] = quantity
+        res = self.sales_list.append(self.record)
+        return jsonify({"message": "New record added."}), 201
 
 
 

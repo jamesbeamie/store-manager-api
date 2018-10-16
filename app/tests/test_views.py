@@ -42,11 +42,25 @@ class TestProducts(TestApi):
 
 class TestSales(TestApi):
   """Class to test products end points"""
+  test_record={
+        "sales_id": 1,
+        "attendant": "James",
+        "product": "Denim",
+        "price": 1600,
+        "quantity": 100
+  }
   def test_all_sales(self):
       """Test if all sales records are returned"""
       response = self.client().get('/api/v1/sales', 
         content_type='application/json')
       self.assertEqual( response.status_code, 200)
+
+  def test_create_sales_record(self):
+    """Test if new record is placed and returns success code,201"""
+    response = self.client().post('/api/v1/sales', 
+      data=json.dumps(self.test_record), 
+      content_type='application/json')
+    self.assertEqual( response.status_code, 201)
     
 if __name__ == "__main__":
   unittest.main()
