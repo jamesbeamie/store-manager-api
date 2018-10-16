@@ -15,11 +15,24 @@ class TestApi(unittest.TestCase):
 
 class TestProducts(TestApi):
   """Class to test products end points"""
+  test_product={
+        "product_id": 1,
+        "product_name": "Denim",
+        "price": 1600,
+        "quantity": 100,
+  }
   def test_all_products(self):
       """Test if all products are returned"""
       response = self.client().get('/api/v1/products', 
         content_type='application/json')
       self.assertEqual( response.status_code, 200)
+
+  def test_create_product(self):
+    """Test if new order is placed and returns success code,201"""
+    response = self.client().post('/api/v1/products', 
+      data=json.dumps(self.test_product), 
+      content_type='application/json')
+    self.assertEqual( response.status_code, 201)
     
 if __name__ == "__main__":
   unittest.main()

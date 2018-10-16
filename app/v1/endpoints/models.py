@@ -12,4 +12,18 @@ class Products(object):
             return make_response(jsonify({"Products": self.products_list}))
         return make_response(jsonify({"message":"No products."}), 200)
 
+    def create_product(self, product_name, price, quantity):
+        """Create order"""
+        self.product = {}
+        self.product_id = len(self.products_list)
+
+        self.product['product_id'] = self.product_id + 1
+        self.product['product_name'] = product_name
+        self.product['price'] = price
+        self.product['quantity'] = quantity
+        res = self.products_list.append(self.product)
+        return jsonify({"message": "New product added."}), 201
+
+
+
 
