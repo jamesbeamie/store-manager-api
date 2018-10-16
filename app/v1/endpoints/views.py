@@ -5,7 +5,6 @@ from .models import Products, Sales
 product_class = Products()
 sales_class = Sales()
 
-
 class ProductsViews():
 	@api.route('/products', methods=["GET"])
 	def products():
@@ -27,7 +26,9 @@ class ProductsViews():
 	def specific(product_id, **kwargs):
 		"""method to return a specific product"""
 		result = product_class.specific_product(product_id)
-		return result
+		if result:
+			return result
+		return jsonify({"Sorry":"The product ID doesn't exist"}), 404
 
 class SalesViews():
 	@api.route('/sales', methods=["GET"])
@@ -51,4 +52,6 @@ class SalesViews():
 	def specific_sales(sales_id, **kwargs):
 		"""method to return a specific sales record"""
 		result = sales_class.specific_record(sales_id)
-		return result
+		if result:
+			return result
+		return jsonify({"Sorry":"The product ID doesn't exist"}), 404
