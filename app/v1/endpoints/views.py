@@ -15,6 +15,7 @@ class ProductsViews():
 
 	@api.route('/products', methods=['POST'])
 	def create():
+		"""Add a product to inventory"""
 		data = request.get_json()
 		product_name = data['product_name']
 		price = data['price']
@@ -34,3 +35,14 @@ class SalesViews():
 	  """ Method to see all products."""
 	  sales_records = sales_class.all_sales()
 	  return sales_records
+
+	@api.route('/sales', methods=['POST'])
+	def create_sales_record():
+		"""Create a new sales record"""
+		data = request.get_json()
+		attendant = data['attendant']
+		product = data['product']
+		price = data['price']
+		quantity = data['quantity']
+		result = sales_class.create_record(attendant, product, price, quantity)
+		return result
