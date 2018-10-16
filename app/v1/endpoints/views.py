@@ -4,9 +4,19 @@ from . import api
 from .models import Products
 product_class = Products()
 
+
 class ProductsViews():
 	@api.route('/products', methods=["GET"])
 	def products():
 	  """ Method to see all products."""
 	  available_products = product_class.all_products()
 	  return available_products
+
+	@api.route('/products', methods=['POST'])
+	def create():
+		data = request.get_json()
+		product_name = data['product_name']
+		price = data['price']
+		quantity = data['quantity']
+		result = product_class.create_product(product_name, price, quantity)
+		return result
