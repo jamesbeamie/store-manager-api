@@ -39,6 +39,14 @@ class TestProducts(TestApi):
     response = self.client().get('/api/v1/products/1', 
       content_type='application/json')
     self.assertEqual( response.status_code, 200)
+
+class TestSales(TestApi):
+  """Class to test products end points"""
+  def test_all_sales(self):
+      """Test if all sales records are returned"""
+      response = self.client().get('/api/v1/sales', 
+        content_type='application/json')
+      self.assertEqual( response.status_code, 200)
     
 if __name__ == "__main__":
   unittest.main()

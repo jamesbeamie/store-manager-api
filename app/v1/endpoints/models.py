@@ -30,6 +30,17 @@ class Products(object):
         for product in self.products_list:
             if product['product_id'] == product_id:
                 return jsonify({"Product":product}), 200
+                
+class Sales(object):
+    def __init__(self):
+        """ Initialize empty sales list"""  
+        self.sales_list = []        
+
+    def all_sales(self):
+        """ fetch all products """
+        if len(self.sales_list) > 0:
+            return make_response(jsonify({"Sales": self.sales_list}))
+        return make_response(jsonify({"message":"No sales made."}), 200)
 
 
 
