@@ -20,3 +20,9 @@ class ProductsViews():
 		quantity = data['quantity']
 		result = product_class.create_product(product_name, price, quantity)
 		return result
+	
+	@api.route('/products/<int:product_id>', methods=['GET'])
+	def specific(product_id, **kwargs):
+		"""method to return a specific product"""
+		result = product_class.specific_product(product_id)
+		return result
