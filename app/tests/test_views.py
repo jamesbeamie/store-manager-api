@@ -62,5 +62,11 @@ class TestSales(TestApi):
       content_type='application/json')
     self.assertEqual( response.status_code, 201)
     
+  def test_specific_record(self):
+    """Test if specified sales record is returned and returns success code,200"""
+    response = self.client().get('/api/v1/sales/1', 
+      content_type='application/json')
+    self.assertEqual( response.status_code, 200)
+    
 if __name__ == "__main__":
   unittest.main()

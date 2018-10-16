@@ -55,6 +55,12 @@ class Sales(object):
         res = self.sales_list.append(self.record)
         return jsonify({"message": "New record added."}), 201
 
+    def specific_record(self, sales_id):
+        """The function returns a specific sales record, specified by id"""
+        for record in self.sales_list:
+            if record['sales_id'] == sales_id:
+                return jsonify({"Sales record":record}), 200
+
 
 
 
