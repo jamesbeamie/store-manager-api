@@ -118,7 +118,7 @@ class TestSales(TestApi):
       content_type='application/json')
     data = json.loads(response.data.decode())
     self.assertEqual( response.status_code, 400)
-    self.assertEqual(data['message'], 'Enter product name')
+    self.assertEqual(data['message'], 'Invalid attendant name')
     
   def test_specific_record(self):
     """Test if specified sales record is returned and returns success code,200"""
