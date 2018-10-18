@@ -40,6 +40,12 @@ class TestProducts(TestApi):
       content_type='application/json')
     self.assertEqual( response.status_code, 200)
 
+  def test_mising_id(self):
+    """Test if specified product is missing id"""
+    response = self.client().get('/api/v1/products/', 
+      content_type='application/json')
+    self.assertEqual( response.status_code, 404)
+
 class TestSales(TestApi):
   """Class to test products end points"""
   test_record={
@@ -67,6 +73,12 @@ class TestSales(TestApi):
     response = self.client().get('/api/v1/sales/1', 
       content_type='application/json')
     self.assertEqual( response.status_code, 200)
+
+  def test_records_id(self):
+    """Test if specific sales record to fetch is missing id"""
+    response = self.client().get('/api/v1/sales/', 
+      content_type='application/json')
+    self.assertEqual( response.status_code, 404)
     
 if __name__ == "__main__":
   unittest.main()
