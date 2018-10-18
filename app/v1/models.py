@@ -21,8 +21,13 @@ class Products(object):
         self.product['product_name'] = product_name
         self.product['price'] = price
         self.product['quantity'] = quantity
+        #check for duplicate products
+        for product in self.products_list:
+            if self.product['product_name'] in product['product_name']:
+                return jsonify({"message":"Product already exists"}), 400
         res = self.products_list.append(self.product)
         return jsonify({"message": "New product added."}), 201
+
 
     
     def specific_product(self, product_id):
@@ -60,7 +65,3 @@ class Sales(object):
         for record in self.sales_list:
             if record['sales_id'] == sales_id:
                 return jsonify({"Sales record":record}), 200
-
-
-
-
