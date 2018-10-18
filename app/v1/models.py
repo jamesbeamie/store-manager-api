@@ -26,7 +26,7 @@ class Products(object):
             if self.product['product_name'] in product['product_name']:
                 return jsonify({"message":"Product already exists"}), 400
         res = self.products_list.append(self.product)
-        return jsonify({"message": "New product added."}), 200
+        return jsonify({"message": "New product added."}), 201
 
 
     
@@ -58,7 +58,7 @@ class Sales(object):
         self.record['price'] = price
         self.record['quantity'] = quantity
         res = self.sales_list.append(self.record)
-        return jsonify({"message": "New record added."}), 200
+        return jsonify({"message": "New record added."}), 201
 
     def specific_record(self, sales_id):
         """The function returns a specific sales record, specified by id"""
