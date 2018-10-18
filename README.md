@@ -20,6 +20,14 @@
 ## Deployment
 - Deploy the api on heroku.
 - Install gunicorn, and specify the application name in the procfile.
+- Log into heroku using _heroku login_ command
+- Create application on heroku
+- Push changes ffrom develop to heroku master
+## Testing on heroku
+- Get the heroku application link after deployment process above
+- paste the link in the browser and add the url prefix and the route
+- Copy the heroku link from the browser to postman
+- Test the endpoints using the relevant requests
 ## Versioning
 - V1 is version one oof the application
 ## Author
