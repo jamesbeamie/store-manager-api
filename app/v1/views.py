@@ -1,3 +1,4 @@
+
 """views for the endpoints"""
 from flask import request, jsonify
 from . import api
@@ -99,7 +100,6 @@ class SalesViews():
 			return result
 		return jsonify({"message":res}), 400
 
-	
 
 	@api.route('/sales/<int:sales_id>', methods=['GET'])
 	def specific_sales(sales_id, **kwargs):

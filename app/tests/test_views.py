@@ -27,6 +27,12 @@ class TestProducts(TestApi):
         "price": " ",
         "quantity": 100,
   }
+  test_invalid={
+        "product_id": 1,
+        "product_name": " ",
+        "price": 1600,
+        "quantity": 100,
+  }
   def test_all_products(self):
       """Test if all products are returned"""
       response = self.client().get('/api/v1/products', 
@@ -38,6 +44,7 @@ class TestProducts(TestApi):
     response = self.client().post('/api/v1/products', 
       data=json.dumps(self.test_product), 
       content_type='application/json')
+
     data = json.loads(response.data.decode())
     self.assertEqual( response.status_code, 201)
     self.assertEqual(data['message'], 'New product added.')
@@ -81,6 +88,13 @@ class TestSales(TestApi):
         "price": " ",
         "quantity": 100
   }
+  test_invalid_record={
+        "sales_id": 1,
+        "attendant": " ",
+        "product": "Denim",
+        "price": 1600,
+        "quantity": 100
+  }
   def test_all_sales(self):
       """Test if all sales records are returned"""
       response = self.client().get('/api/v1/sales', 
@@ -95,6 +109,7 @@ class TestSales(TestApi):
     data = json.loads(response.data.decode())
     self.assertEqual( response.status_code, 201)
     self.assertEqual(data['message'], 'New record added.')
+
 
   def test_invalid_sales_record(self):
     """Test if new record is placed and returns success code,201"""
