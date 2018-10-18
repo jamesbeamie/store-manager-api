@@ -23,5 +23,5 @@
 ## Versioning
 - V1 is version one of the application
 ## Author
-- James Wafula
+- James N Wafula
 
