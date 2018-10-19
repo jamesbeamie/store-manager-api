@@ -6,7 +6,7 @@
 - Store has attendants to serve the clients, who can search for products and add to cient's cart.
 - The store owner can also add a new attendant and create their useraccounts.
 ## Testing locally
-- The api can be locally tested by firts clonning the repository to your local machine.
+- The api can be locally tested by first clonning the repository to your local machine.
 - Create and activate your  virtual environment
 - Run the application using _python run.py_ command
 - Get the url and test it on postman using the relevant https request, including the right url prefix _/api/v1_
@@ -22,13 +22,13 @@
 - Install gunicorn, and specify the application name in the procfile.
 - Log into heroku using _heroku login_ command
 - Create application on heroku
-- Push changes ffrom develop to heroku master
+- Push changes from develop to heroku master
 ## Testing on heroku
 - Get the heroku application link after deployment process above
 - paste the link in the browser and add the url prefix and the route
 - Copy the heroku link from the browser to postman
 - Test the endpoints using the relevant requests
 ## Versioning
-- V1 is version one oof the application
+- V1 is version one of the application
 ## Author
 - James Wafula
