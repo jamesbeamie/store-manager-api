@@ -9,11 +9,23 @@ env:
 # command to install dependencies
 install:
   - pip install -r requirements.txt
+
+services:
+  - postgresql
+
+before_script:
+  
+  - psql -c "CREATE ROLE james WITH createdb login PASSWORD 'andela';" -U postgres
+  - psql -c 'CREATE DATABASE challenge3 owner postgres' -U postgres
     
 # command to run tests
 script:
-  - pytest --cov=app/v1/ 
+  - pytest --cov=app/v2/ 
 
 # Running coverals
 after_success:
   - coveralls
+
+#diasble notifications
+notifications:
+  email: false

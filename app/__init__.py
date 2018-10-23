@@ -12,6 +12,12 @@ from .dbconect import init_db
 def create_app(config_name):
     app = Flask(__name__, instance_relative_config=True)
 
+    mykey = os.getenv('SECRET')
+    app.config['JWT_SECRET_KEY']= mykey
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=5)
+    #initialize jwt manager
+    jwt = JWTManager(app)
+    app.config.from_object(app_config[config_name])
 
     init_db()
 
