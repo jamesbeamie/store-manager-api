@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.org/jamesbeamie/store-manager-api.svg?branch=ch-id-validation-161258357)](https://travis-ci.org/jamesbeamie/store-manager-api)[![Coverage Status](https://coveralls.io/repos/github/jamesbeamie/store-manager-api/badge.svg?branch=ft-reg-admin-161406359)](https://coveralls.io/github/jamesbeamie/store-manager-api?branch=ft-reg-admin-161406359)
+[![Build Status](https://travis-ci.org/jamesbeamie/store-manager-api.svg?branch=ch-id-validation-161258357)](https://travis-ci.org/jamesbeamie/store-manager-api) [![Coverage Status](https://coveralls.io/repos/github/jamesbeamie/store-manager-api/badge.svg?branch=ft-reg-admin-161406359)](https://coveralls.io/github/jamesbeamie/store-manager-api?branch=ft-reg-admin-161406359)
 ## Store manager
 - Store manager is an application for managing a boutique.The store deals in a wide range of clothes.
 - The owner of the store is the primary admin with the rights to add new product to inventory, view all sales records, edit and delete an existing product.
