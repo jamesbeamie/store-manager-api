@@ -36,7 +36,7 @@ class TestUsers(TestApi):
     response = self.client().post('/api/v2/admin/signup', 
       data=json.dumps(self.test_adm_exist), 
       content_type='application/json')
-    self.assertEqual( response.status_code, 200)
+    self.assertEqual( response.status_code, 201)
 
   def test_reg_admin(self):
     response = self.client().post('/api/v2/admin/signup', 
