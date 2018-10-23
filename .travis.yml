@@ -12,8 +12,12 @@ install:
     
 # command to run tests
 script:
-  - pytest --cov=app/v1/ 
+  - pytest --cov=app/v2/ 
 
 # Running coverals
 after_success:
   - coveralls
+
+#diasble notifications
+notifications:
+  email: false
