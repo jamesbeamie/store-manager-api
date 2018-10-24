@@ -55,3 +55,15 @@ class User(object):
         con.commit()
         return make_response(jsonify({"message":"admin created"}), 201)
 
+    def login(self, username, password):
+        if self.invalid_user(username):
+            con = dbcon()
+            cur = con.cursor()
+            cur.execute("SELECT * FROM my_users WHERE username=%(username)s \
+                and password=%(password)s",{'username':username, 'password':password})
+            user = cur.fetchone()
+            if user:
+                return jsonify({"User token":create_access_token(username)}), 200
+            return jsonify({"message":"You entered a wrong password"})
+        return jsonify({"message":"Username not recognized Please register"})
+

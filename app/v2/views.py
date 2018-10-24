@@ -42,4 +42,11 @@ def reg_admin():
     return jsonify({"message":"Can only register role as admin"})
   return jsonify({"message":res}), 400
 
-
+@api2.route('/login', methods=["POST"])
+def login():
+    """ Method to login user """
+    data = request.get_json()
+    username = data['username']
+    password = data['password']
+    result = user_class.login(username, password)
+    return result

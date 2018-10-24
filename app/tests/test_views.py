@@ -18,33 +18,71 @@ class TestApi(unittest.TestCase):
 
 class TestUsers(TestApi):
   test_adm_exist={
-      "username": "James",
+      "username": "james",
       "password": "andela",
       "confirmpass": "andela",
       "addres": "kitale",
       "role":"admin"
       }
   test_reg_adm={
-      "username": "jake",
+      "username": "james",
       "password": "andela",
       "confirmpass": "andela",
       "addres": "kitale",
       "role":"admin"
       }
+  test_reg_user_role={
+      "username": "masaa",
+      "password": "andela",
+      "confirmpass": "andela",
+      "addres": "kitale",
+      "role":"role"
+      }
+  test_reg_valid_user={
+      "username": "m",
+      "password": "andela",
+      "confirmpass": "andela",
+      "addres": "kitale",
+      "role":"attendant"
+      }
+  test_reg_attendant={
+      "username": "masaa",
+      "password": "andela",
+      "confirmpass": "andela",
+      "addres": "kitale",
+      "role":"attendant"
+      }
+  test_login_adm={
+  "username":"james",
+  "password":"andela"
+  }
+  test_login_user={
+  "username":"masaa",
+  "password":"andela"
+  }
 
   def test_admin_exist(self):
     response = self.client().post('/api/v2/admin/signup', 
-      data=json.dumps(self.test_adm_exist), 
+      data=json.dumps(self.test_reg_adm), 
       content_type='application/json')
     self.assertEqual( response.status_code, 201)
 
   def test_reg_admin(self):
     response = self.client().post('/api/v2/admin/signup', 
       data=json.dumps(self.test_reg_adm), 
-      content_type='application/json')
-    self.assertEqual( response.status_code, 200)
+      content_type='application/json')    
+    res = json.loads(response.data)
+    self.assertEqual(res["message"], "Username already taken")
+    self.assertEqual( response.status_code, 400)
 
+  def test_adm_login(self):
+    with self.app.app_context():
+      response = self.client().post('/api/v2/login', 
+        data=json.dumps(self.test_login_adm), 
+        content_type='application/json')   
+      res = json.loads(response.data) 
+      admin_token =  create_access_token(self.test_login_adm.get("username"))
+      self.assertEqual(res["message"], "Username not recognized Please register")
 
-    
-if __name__ == "__main__":
-  unittest.main()
+      self.assertEqual( response.status_code, 200)
+      self.assertNotEqual(response.json, admin_token)
