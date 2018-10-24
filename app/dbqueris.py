@@ -1,8 +1,3 @@
-drop_products="""DROP TABLE IF EXISTS products;"""
-
-drop_sales="""DROP TABLE IF EXISTS sales;"""
-
-drop_users=""" DROP TABLE my_users;"""
 
 product_table="""CREATE TABLE IF NOT EXISTS products(
 						product_id serial PRIMARY KEY,
@@ -27,4 +22,4 @@ user_table="""CREATE TABLE IF NOT EXISTS my_users(
 						role VARCHAR(10) NOT NULL
 					)"""
 
-queries = [drop_products, drop_products, drop_products, product_table, sales_table, user_table]
+queries = [product_table, sales_table, user_table]
