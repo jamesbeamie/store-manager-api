@@ -1,4 +1,3 @@
-
 from flask import jsonify, request, make_response
 import psycopg2
 import jwt
@@ -81,3 +80,21 @@ class User(object):
                 return jsonify({"User token":create_access_token(username)}), 200
             return jsonify({"message":"You entered a wrong password"})
         return jsonify({"message":"Username not recognized Please register"})
+
+class Product(object):
+
+    def create_product(self, product_name,price,quantity):
+        """Create new product"""
+        con = dbcon()
+        cur = con.cursor()
+        #if product already exists
+        cur.execute("SELECT * FROM products WHERE product_name=%(product_name)s",\
+            {"product_name":product_name})
+        available = cur.fetchall()
+        if available:
+            return make_response(jsonify({"Message":"Product already in stoke."})), 200
+        cur.execute("INSERT INTO products (product_name,price,quantity)\
+         VALUES (%(product_name)s,%(price)s,%(quantity)s);",\
+         {'product_name':product_name,'price':price,'quantity':quantity})
+        con.commit()
+        return make_response(jsonify({"message":"Product added in catalog"}),201)
