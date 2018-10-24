@@ -86,3 +86,42 @@ class TestUsers(TestApi):
 
       self.assertEqual( response.status_code, 200)
       self.assertNotEqual(response.json, admin_token)
+
+  def test_role_reg_usr(self):
+    with self.app.app_context():
+      admin_token =  create_access_token(self.test_login_adm.get("username"))
+      response = self.client().post('/api/v2/attendant/signup', 
+        data=json.dumps(self.test_reg_user_role), 
+        content_type='application/json',
+        headers={'Authorization': 'Bearer ' + admin_token})
+      self.assertEqual( response.status_code, 400)
+
+  def test_reg_valid_usr(self):
+    with self.app.app_context():
+      admin_token =  create_access_token(self.test_login_adm.get("username"))
+      response = self.client().post('/api/v2/attendant/signup', 
+        data=json.dumps(self.test_reg_valid_user), 
+        content_type='application/json',
+        headers={'Authorization': 'Bearer ' + admin_token})
+      self.assertEqual( response.status_code, 400)
+
+  def test_reg_usr(self):
+    with self.app.app_context():
+      admin_token =  create_access_token(self.test_login_adm.get("username"))
+      response = self.client().post('/api/v2/attendant/signup', 
+        data=json.dumps(self.test_reg_attendant), 
+        content_type='application/json',
+        headers={'Authorization': 'Bearer ' + admin_token})
+      self.assertEqual( response.status_code, 201)
+
+  def test_login(self):
+    with self.app.app_context():
+      response = self.client().post('/api/v2/login', 
+        data=json.dumps(self.test_login_user), 
+        content_type='application/json')
+      user_token =  create_access_token(self.test_login_user.get("username"))
+      self.assertEqual( response.status_code, 200)
+      self.assertNotEqual(response.json, user_token)
+
+if __name__ == "__main__":
+  unittest.main()
