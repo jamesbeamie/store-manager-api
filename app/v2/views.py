@@ -117,3 +117,20 @@ def add_product():
       return product_class.create_product(product_name,price,quantity)
     return jsonify({"message":res})
   return jsonify({"message":"Restricted to admin only"})
+
+@api2.route('/products/<int:product_id>', methods=['PUT'])
+@jwt_required
+def update_product(product_id, **kwargs):
+  """method for the admin to update order status"""
+  logedin = get_jwt_identity()
+  adm=user_class.is_admin(logedin)
+  if adm == True:
+    product_details = request.get_json()
+    res = validate_product(product_details)
+    product_name = product_details['product_name']
+    price = product_details['price']
+    quantity = product_details['quantity']
+    if res == 'valid':
+      return product_class.modify_product(product_id,product_name,price,quantity)
+    return jsonify({"message":res})
+  return jsonify({"message":"Restricted to admin only"}) 
