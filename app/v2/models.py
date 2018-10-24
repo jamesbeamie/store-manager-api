@@ -47,13 +47,28 @@ class User(object):
         row = cur.rowcount
         available = cur.fetchall()
         if available:
-            return make_response(jsonify({"Message":"ADM exists"})), 200
+            return make_response(jsonify({"Message":"ADM exists"})), 400
         cur.execute("INSERT INTO my_users (username,password,confirmpass,addres,role) \
             VALUES (%(username)s,%(password)s,%(confirmpass)s,%(addres)s,%(role)s);",\
             {'username':username,'password':password, \
             'confirmpass':confirmpass,'addres':addres,'role':role})
         con.commit()
         return make_response(jsonify({"message":"admin created"}), 201)
+    
+    def reg_attendant(self, username, password, confirmpass, addres, role):
+        """Create users"""
+        if self.invalid_user(username):
+            return jsonify({"message":"Username already taken"}),400
+        else:
+            con = dbcon()
+            cur = con.cursor()
+            cur.execute("INSERT INTO my_users (username, password, confirmpass, \
+                addres, role) VALUES (%(username)s,%(password)s,\
+                %(confirmpass)s,%(addres)s,%(role)s);",\
+                {'username':username,'password':password,'confirmpass':confirmpass,\
+                'addres':addres,'role':role})
+            con.commit()
+            return make_response(jsonify({"message":"user created successfully"}), 201)
 
     def login(self, username, password):
         if self.invalid_user(username):
@@ -66,4 +81,3 @@ class User(object):
                 return jsonify({"User token":create_access_token(username)}), 200
             return jsonify({"message":"You entered a wrong password"})
         return jsonify({"message":"Username not recognized Please register"})
-
