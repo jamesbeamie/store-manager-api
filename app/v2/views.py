@@ -134,3 +134,20 @@ def update_product(product_id, **kwargs):
       return product_class.modify_product(product_id,product_name,price,quantity)
     return jsonify({"message":res})
   return jsonify({"message":"Restricted to admin only"}) 
+  
+
+@api2.route('products/<int:product_id>', methods=["DELETE"])
+@jwt_required
+def delete_item(product_id, **kwargs):
+  """Route to delete a user from the db using the user name"""
+  logedin = get_jwt_identity()
+  adm=user_class.is_admin(logedin)
+  if adm == True:
+    res = product_class.delete_product(product_id)
+    return res, 200
+  return jsonify({"message":"Restricted to admin only"})
+
+
+
+
+

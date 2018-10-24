@@ -169,5 +169,15 @@ class TestProducts(TestApi):
           headers={'Authorization': 'Bearer ' + admin_token})
         self.assertEqual( response.status_code, 200)
 
+  def test_delete_product(self):
+      """Test if a product is modified"""
+      with self.app.app_context():
+        admin_token =  create_access_token(self.test_login_adm.get("username"))
+        response = self.client().put('/api/v2/products/1', 
+          data=json.dumps(self.delete_product), 
+          content_type='application/json',
+          headers={'Authorization': 'Bearer ' + admin_token})
+        self.assertEqual( response.status_code, 200)
+    
 if __name__ == "__main__":
   unittest.main()
