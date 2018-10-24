@@ -114,3 +114,19 @@ class Product(object):
             con.commit()
             return make_response(jsonify({'message': 'Product modified'}), 200)
         return jsonify({"message":"Couldn't find product ID"})
+
+    def delete_product(self, product_id):
+        con = dbcon()
+        cur = con.cursor()
+        cur.execute("SELECT * FROM products WHERE product_id=%(product_id)s",\
+            {"product_id":product_id})
+        found_id = cur.fetchall()
+        if found_id:
+            cur.execute("DELETE FROM products WHERE product_id=%(product_id)s",\
+                {'product_id':product_id})
+            con.commit()
+            return jsonify({'message': 'Product deleted successfully'})
+        return jsonify({"message":"Couldn't find product ID"}) 
+
+
+
