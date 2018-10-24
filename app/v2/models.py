@@ -1,3 +1,4 @@
+
 from flask import jsonify, request, make_response
 import psycopg2
 import jwt
@@ -98,3 +99,18 @@ class Product(object):
          {'product_name':product_name,'price':price,'quantity':quantity})
         con.commit()
         return make_response(jsonify({"message":"Product added in catalog"}),201)
+
+    def modify_product(self, product_id,product_name,price,quantity):
+        """This function edits the order placed, takes user inputs in json form"""
+        con = dbcon()
+        cur = con.cursor()
+        cur.execute("SELECT * FROM products WHERE product_id=%(product_id)s",\
+            {"product_id":product_id})
+        found_id = cur.fetchall()
+        if found_id:
+            cur.execute("UPDATE  products SET product_name=%s, price=%s, \
+            quantity= %s WHERE product_id=%s",\
+            (product_name, price, quantity, product_id))
+            con.commit()
+            return make_response(jsonify({'message': 'Product modified'}), 200)
+        return jsonify({"message":"Couldn't find product ID"})
