@@ -123,5 +123,40 @@ class TestUsers(TestApi):
       self.assertEqual( response.status_code, 200)
       self.assertNotEqual(response.json, user_token)
 
+
+class TestProducts(TestApi):
+  test_login_adm={
+  "username":"james",
+  "password":"andela"
+  }
+  new_product={
+  "product_id":1,
+  "product_name":"Denim",
+  "price":"2000",
+  "quantity":30
+  }
+  edit={
+  "product_id":1,
+  "product_name":"jacket",
+  "price":"2000",
+  "quantity":30
+  }
+  delete_product={
+  "product_id":1,
+  "product_name":" ",
+  "price":" ",
+  "quantity":30
+  }
+
+  def test_create_product(self):
+      """Test if a product is created"""
+      with self.app.app_context():
+        admin_token =  create_access_token(self.test_login_adm.get("username"))
+        response = self.client().post('/api/v2/products',
+        data=json.dumps(self.new_product), 
+          content_type='application/json',
+        headers={'Authorization': 'Bearer ' + admin_token})
+        self.assertEqual( response.status_code, 201)
+
 if __name__ == "__main__":
   unittest.main()

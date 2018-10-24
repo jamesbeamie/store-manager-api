@@ -1,8 +1,9 @@
 from flask import Flask, request, jsonify, session
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from . import api2
-from .models import User
+from .models import User, Product
 user_class = User()
+product_class = Product()
 
 def validate_user( data):
   """validate user details"""
@@ -95,3 +96,24 @@ def login():
     password = data['password']
     result = user_class.login(username, password)
     return result
+
+"""
+Products
+"""
+
+@api2.route('/products', methods=['POST'])
+@jwt_required
+def add_product():
+  """method to create product"""
+  logedin = get_jwt_identity()
+  adm=user_class.is_admin(logedin)
+  if adm == True:
+    data = request.get_json()
+    res = validate_product(data)
+    product_name = data['product_name']
+    price = data['price']
+    quantity = data['quantity']
+    if res == 'valid':
+      return product_class.create_product(product_name,price,quantity)
+    return jsonify({"message":res})
+  return jsonify({"message":"Restricted to admin only"})
