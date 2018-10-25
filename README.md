@@ -1,3 +1,4 @@
+
 [![Build Status](https://travis-ci.org/jamesbeamie/store-manager-api.svg?branch=ch-id-validation-161258357)](https://travis-ci.org/jamesbeamie/store-manager-api) [![Coverage Status](https://coveralls.io/repos/github/jamesbeamie/store-manager-api/badge.svg?branch=ft-delete-product-161406641)](https://coveralls.io/github/jamesbeamie/store-manager-api?branch=ft-delete-product-161406641)
 ## Store manager
 - Store manager is an application for managing a boutique.The store deals in a wide range of clothes.
@@ -31,3 +32,4 @@
 - V2 is version one of the application
 ## Author
 - James Wafula
+
