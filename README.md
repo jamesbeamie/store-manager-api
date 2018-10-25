@@ -29,6 +29,6 @@
 - Copy the heroku link from the browser to postman
 - Test the endpoints using the relevant requests
 ## Versioning
-- V1 is version one of the application
+- V2 is version one of the application
 ## Author
 - James Wafula
