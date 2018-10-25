@@ -114,6 +114,12 @@ class TestUsers(TestApi):
         headers={'Authorization': 'Bearer ' + admin_token})
       self.assertEqual( response.status_code, 201)
 
+  def test_all_users(self):
+    """Test return all products"""
+    response = self.client().get('/api/v2/users',
+      content_type='application/json',)
+    self.assertEqual( response.status_code, 200)
+
   def test_login(self):
     with self.app.app_context():
       response = self.client().post('/api/v2/login', 
@@ -135,6 +141,12 @@ class TestProducts(TestApi):
   "price":"2000",
   "quantity":30
   }
+  specific_prodct={
+  "product_id":1,
+  "product_name":"Denim",
+  "price":"2000",
+  "quantity":30
+  }
   edit={
   "product_id":1,
   "product_name":"jacket",
@@ -142,7 +154,7 @@ class TestProducts(TestApi):
   "quantity":30
   }
   delete_product={
-  "product_id":1,
+  "product_id":7,
   "product_name":" ",
   "price":" ",
   "quantity":30
@@ -158,6 +170,21 @@ class TestProducts(TestApi):
         headers={'Authorization': 'Bearer ' + admin_token})
         self.assertEqual( response.status_code, 201)
 
+  def test_all_products(self):
+      """Test return all products"""
+      response = self.client().get('/api/v2/products',
+        content_type='application/json',)
+      self.assertEqual( response.status_code, 200)
+
+  def test_specific_product(self):
+      """Test getting specificproduct"""
+      with self.app.app_context():
+        admin_token =  create_access_token(self.test_login_adm.get("username"))
+        response = self.client().get('/api/v2/products/1', 
+          data=json.dumps(self.specific_prodct), 
+          content_type='application/json',
+          headers={'Authorization': 'Bearer ' + admin_token})
+        self.assertEqual( response.status_code, 400)
 
   def test_modify_product(self):
       """Test if a product is modified"""
@@ -173,11 +200,68 @@ class TestProducts(TestApi):
       """Test if a product is modified"""
       with self.app.app_context():
         admin_token =  create_access_token(self.test_login_adm.get("username"))
-        response = self.client().put('/api/v2/products/1', 
+        response = self.client().delete('/api/v2/products/1', 
           data=json.dumps(self.delete_product), 
           content_type='application/json',
           headers={'Authorization': 'Bearer ' + admin_token})
         self.assertEqual( response.status_code, 200)
     
+class TestSales(TestApi):
+  test_login_attendant={
+  "username":"masaa",
+  "password":"andela"
+  }
+  test_login_adm={
+  "username":"james",
+  "password":"andela"
+  }
+  new_sales={
+  "sales_id":1,
+  "attendant":"masaa",
+  "product_name":"Denim",
+  "price":"2000",
+  "quantity":30
+  }
+  specific_sales={
+  "product_id":1,
+  "attendant":"masaa",
+  "product_name":"Denim",
+  "price":"2000",
+  "quantity":30
+  }
+  delete_product={
+  "product_id":1,
+  "product_name":" ",
+  "price":" ",
+  "quantity":30
+  }
+  def test_create_record(self):
+      """Test if a record is created"""
+      with self.app.app_context():
+        user_token =  create_access_token(self.test_login_attendant.get("username"))
+        response = self.client().post('/api/v2/sales',
+        data=json.dumps(self.new_sales), 
+          content_type='application/json',
+        headers={'Authorization': 'Bearer ' + user_token})
+        self.assertEqual( response.status_code, 201)
+
+  def test_specific_record(self):
+      """Test for accessing a specific record"""
+      with self.app.app_context():
+        user_token =  create_access_token(self.test_login_attendant.get("username"))
+        response = self.client().get('/api/v2/sales/1', 
+          data=json.dumps(self.specific_sales), 
+          content_type='application/json',
+          headers={'Authorization': 'Bearer ' + user_token})
+        self.assertEqual( response.status_code, 200)
+
+  def test_all_records(self):
+      """Test return all sales records"""
+      with self.app.app_context():
+        admin_token =  create_access_token(self.test_login_adm.get("username"))
+        response = self.client().get('/api/v2/sales',
+          content_type='application/json',
+          headers={'Authorization': 'Bearer ' + admin_token})
+        self.assertEqual( response.status_code, 200)
 if __name__ == "__main__":
   unittest.main()

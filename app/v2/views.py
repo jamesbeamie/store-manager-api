@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify, session
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from . import api2
-from .models import User, Product
+from .models import User, Product, Sales
 user_class = User()
 product_class = Product()
+sales_class = Sales()
 
 def validate_user( data):
   """validate user details"""
@@ -88,6 +89,11 @@ def reg():
     return jsonify({"message":res}), 400
   return jsonify({"message":"Restricted to admin only"})
 
+@api2.route('/users', methods=["GET"])
+def all_users():
+  """ Route to get all the registered users."""
+  return user_class.view_users()
+
 @api2.route('/login', methods=["POST"])
 def login():
     """ Method to login user """
@@ -146,6 +152,61 @@ def delete_item(product_id, **kwargs):
     res = product_class.delete_product(product_id)
     return res, 200
   return jsonify({"message":"Restricted to admin only"})
+
+@api2.route('/products', methods=["GET"])
+def all_products():
+  """Get all products"""
+  return product_class.get_products()
+
+@api2.route('products/<int:product_id>', methods=['GET'])
+@jwt_required
+def single_product(product_id, **kwargs):
+  """method to return a specific product"""
+  result = product_class.specific_product(product_id)
+  return result
+
+
+"""
+Sales
+"""
+
+@api2.route('/sales', methods=['POST'])
+@jwt_required
+def add_record():
+  """method to create a sales record"""
+  logedin = get_jwt_identity()
+  adm=user_class.is_admin(logedin)
+  if adm == False:
+    data = request.get_json()
+    res = validate_product(data)
+    attendant = data['attendant']
+    product_name = data['product_name']
+    price = data['price']
+    quantity = data['quantity']
+    if res == 'valid':
+      return sales_class.create_record(attendant,product_name,price,quantity)
+    return jsonify({"message":res}), 400
+  return jsonify({"message":"Only attendant can create record"}), 400
+
+@api2.route('/sales/<int:sales_id>', methods=['GET'])
+@jwt_required
+def specific(sales_id, **kwargs):
+  """method to return a specific sales record"""
+  result = sales_class.specific_record(sales_id)
+  if not result:
+    return jsonify({"message":"could not find the specified record id"}), 400
+  return result
+
+@api2.route('/sales', methods=["GET"])
+@jwt_required
+def sales_records():
+  """Get all sales records"""
+  logedin = get_jwt_identity()
+  adm=user_class.is_admin(logedin)
+  if adm == True:
+    return sales_class.all_sales(logedin)
+  return jsonify({"message":"Only admin can view all records"})
+
 
 
 
