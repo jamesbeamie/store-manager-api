@@ -19,6 +19,7 @@ def create_app(config_name):
     jwt = JWTManager(app)
     app.config.from_object(app_config[config_name])
 
+    #database connection
     init_db()
 
     from .v1 import api as api_blueprint

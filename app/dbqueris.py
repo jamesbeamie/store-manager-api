@@ -9,7 +9,7 @@ product_table="""CREATE TABLE IF NOT EXISTS products(
 sales_table="""CREATE TABLE IF NOT EXISTS sales(
 						sales_id serial PRIMARY KEY,
 						attendant VARCHAR(20) NOT NULL,
-						product VARCHAR(20) NOT NULL,
+						product_name VARCHAR(20) NOT NULL,
 						price VARCHAR(20) NOT NULL,
 						quantity INT NOT NULL
 					)"""

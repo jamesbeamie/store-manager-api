@@ -9,6 +9,7 @@ class DevelopmentConfig(Config):
     """
     Development configurations
     """
+    DATABASE_URL='dbname=jaystore user=postgres password=testia'
     DEBUG = True
     SECRET_KEY = "keepitasecret"
 
@@ -24,6 +25,8 @@ class TestingConfig(Config):
     """
     Testing configurations
     """
+
+    DATABASE_URL='dbname=testdb user=postgres password=testia'
 
     TESTING = True
 

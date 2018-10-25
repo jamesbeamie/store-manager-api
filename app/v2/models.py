@@ -3,7 +3,6 @@ from flask import jsonify, request, make_response
 import psycopg2
 import jwt
 import datetime
-from functools import wraps
 from  flask_jwt_extended import create_access_token
 import os
 from ..dbconect import dbcon
@@ -47,7 +46,7 @@ class User(object):
         row = cur.rowcount
         available = cur.fetchall()
         if available:
-            return make_response(jsonify({"Message":"ADM exists"})), 400
+            return make_response(jsonify({"Message":"Admin exists"})), 400
         cur.execute("INSERT INTO my_users (username,password,confirmpass,addres,role) \
             VALUES (%(username)s,%(password)s,%(confirmpass)s,%(addres)s,%(role)s);",\
             {'username':username,'password':password, \
@@ -69,6 +68,24 @@ class User(object):
                 'addres':addres,'role':role})
             con.commit()
             return make_response(jsonify({"message":"user created successfully"}), 201)
+
+    def view_users(self):
+        con = dbcon()
+        cur = con.cursor()
+        cur.execute("SELECT * FROM my_users")
+        res = cur.fetchall()
+        user_list=[]
+        for user in res:
+            user_det = {
+            'user_id':user[0],
+            'username':user[1],
+            'password':user[2],
+            'confirmpass':user[3],
+            'addres':user[4],
+            'role':user[5]
+            }
+            user_list.append(user_det)
+        return jsonify({'Users': user_list}), 200
 
     def login(self, username, password):
         if self.invalid_user(username):
@@ -128,5 +145,94 @@ class Product(object):
             return jsonify({'message': 'Product deleted successfully'})
         return jsonify({"message":"Couldn't find product ID"}) 
 
+    def get_products(self):
+        """ fetch all products"""
+        con = dbcon()
+        cur = con.cursor()
+        cur.execute("SELECT * FROM products;")
+        res = cur.fetchall()
+        if res:
+            prdcts=[]
+            for prodct_item in res:
+                picked_prdct = {
+                'product_id':prodct_item[0],
+                'product_name':prodct_item[1],
+                'price':prodct_item[2],
+                'quantity':prodct_item[3]
+                }
+                prdcts.append(picked_prdct)
+            return jsonify({"Products": prdcts}), 200
+        return jsonify({"message":"No products in store"})
 
+    def specific_product(self, product_id):
+        """The function gets a specific product"""
+        con = dbcon()
+        cur = con.cursor()
+        cur.execute("SELECT * FROM products WHERE product_id=%(product_id)s",\
+            {'product_id':product_id})
+        res = cur.fetchall()
+        #check if the product exists
+        if res:
+            my_product=[]
+            for a_product in res:
+                product = {
+                'poduct_id':a_product[0],
+                'product_name':a_product[1],
+                'price':a_product[2],
+                'quantity':a_product[3]
+                }
+                my_product.append(product)
+            return make_response(jsonify({"Products":my_product}), 200)
+        return jsonify({"message":"could not find product with that id"}), 400
+
+
+class Sales(object):
+    def create_record(self, attendant,product_name,price,quantity):
+        """Create sales"""
+        con = dbcon()
+        cur = con.cursor()
+        cur.execute("INSERT INTO sales (attendant,product_name,price,quantity)\
+         VALUES (%(attendant)s,%(product_name)s,%(price)s,%(quantity)s);",\
+         {'attendant':attendant,'product_name':product_name,'price':price,'quantity':quantity})
+        con.commit()
+        return make_response(jsonify({"message":"New record created"}),201)
+
+    def specific_record(self, sales_id):
+        """The function gets a record specified by the id"""
+        con = dbcon()
+        cur = con.cursor()
+        cur.execute("SELECT * FROM sales WHERE sales_id=%(sales_id)s",\
+            {'sales_id':sales_id})
+        res = cur.fetchall()
+        if res:
+            sales_rec=[]
+            for a_record in res:
+                user_record = {
+                'sales_id':a_record[0],
+                'attendant':a_record[1],
+                'product_name':a_record[2],
+                'price':a_record[3],
+                'quantity':a_record[4]
+                }
+                sales_rec.append(user_record)
+            return make_response(jsonify({"Record":sales_rec}), 200)
+        return jsonify({"message":"could not find record with that id"}), 400
+
+    def all_sales(self, username):
+        """ fetch all sales records"""
+        con = dbcon()
+        cur = con.cursor()
+        cur.execute("SELECT * FROM sales;")
+        res = cur.fetchall()
+        sales_records=[]
+        for a_sale in res:
+            record = {
+            'sales_id':a_sale[0],
+            'attendant':a_sale[1],
+            'product_name':a_sale[2],
+            'price':a_sale[3],
+            'quantity':a_sale[4]
+            }
+            sales_records.append(record)
+        return jsonify({"Orders": sales_records}), 200
 
