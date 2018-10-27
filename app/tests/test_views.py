@@ -62,12 +62,14 @@ class TestUsers(TestApi):
   }
 
   def test_admin_exist(self):
+    """tests for creating admin and returns 201"""
     response = self.client().post('/api/v2/admin/signup', 
       data=json.dumps(self.test_reg_adm), 
       content_type='application/json')
     self.assertEqual( response.status_code, 201)
 
   def test_reg_admin(self):
+    """tests if admin already exists and returns 400"""
     response = self.client().post('/api/v2/admin/signup', 
       data=json.dumps(self.test_reg_adm), 
       content_type='application/json')    
@@ -76,6 +78,7 @@ class TestUsers(TestApi):
     self.assertEqual( response.status_code, 400)
 
   def test_adm_login(self):
+    """test for logging in the admin"""
     with self.app.app_context():
       response = self.client().post('/api/v2/login', 
         data=json.dumps(self.test_login_adm), 
@@ -88,6 +91,7 @@ class TestUsers(TestApi):
       self.assertNotEqual(response.json, admin_token)
 
   def test_role_reg_usr(self):
+    """tests for role while registering attendant"""
     with self.app.app_context():
       admin_token =  create_access_token(self.test_login_adm.get("username"))
       response = self.client().post('/api/v2/attendant/signup', 
@@ -97,6 +101,7 @@ class TestUsers(TestApi):
       self.assertEqual( response.status_code, 400)
 
   def test_reg_valid_usr(self):
+    """tests for registering valid attendant"""
     with self.app.app_context():
       admin_token =  create_access_token(self.test_login_adm.get("username"))
       response = self.client().post('/api/v2/attendant/signup', 
@@ -106,6 +111,7 @@ class TestUsers(TestApi):
       self.assertEqual( response.status_code, 400)
 
   def test_reg_usr(self):
+    """tests for registering attendant"""
     with self.app.app_context():
       admin_token =  create_access_token(self.test_login_adm.get("username"))
       response = self.client().post('/api/v2/attendant/signup', 
@@ -115,12 +121,13 @@ class TestUsers(TestApi):
       self.assertEqual( response.status_code, 201)
 
   def test_all_users(self):
-    """Test return all products"""
+    """Test return all users"""
     response = self.client().get('/api/v2/users',
       content_type='application/json',)
     self.assertEqual( response.status_code, 200)
 
   def test_login(self):
+    """Test user login"""
     with self.app.app_context():
       response = self.client().post('/api/v2/login', 
         data=json.dumps(self.test_login_user), 
@@ -183,7 +190,7 @@ class TestProducts(TestApi):
       self.assertEqual( response.status_code, 200)
 
   def test_specific_product(self):
-      """Test getting specificproduct"""
+      """Test getting specific product"""
       with self.app.app_context():
         admin_token =  create_access_token(self.test_login_adm.get("username"))
         response = self.client().get('/api/v2/products/1', 
@@ -203,7 +210,7 @@ class TestProducts(TestApi):
         self.assertEqual( response.status_code, 200)
 
   def test_delete_product(self):
-      """Test if a product is modified"""
+      """Test if a product is Deleted"""
       with self.app.app_context():
         admin_token =  create_access_token(self.test_login_adm.get("username"))
         response = self.client().delete('/api/v2/products/1', 

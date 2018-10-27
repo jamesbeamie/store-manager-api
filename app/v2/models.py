@@ -9,9 +9,11 @@ from ..dbconect import dbcon
 
 
 class User(object):
+    """
+    This is a class for functionality related to the users
+    """
     def __init__(self):
         """ Initialize connection to database"""
-        #self.con = dbcon()
 
     def invalid_user(self, username):
         """Checks if user exists"""
@@ -25,6 +27,7 @@ class User(object):
         return False
 
     def is_admin(self, username):
+        """checks if the user is admin user"""
         con = dbcon()
         cur = con.cursor()
         cur.execute("SELECT * FROM my_users WHERE username=%(username)s",\
@@ -40,7 +43,7 @@ class User(object):
             return jsonify({"message":"Username already taken"}),400
         con = dbcon()
         cur = con.cursor()
-        #if admin already exists
+        #checks if admin already exists
         cur.execute("SELECT * FROM my_users WHERE role=%(role)s",\
             {"role":role})
         row = cur.rowcount
@@ -70,6 +73,7 @@ class User(object):
             return make_response(jsonify({"message":"user created successfully"}), 201)
 
     def view_users(self):
+        """fetches all the registered users"""
         con = dbcon()
         cur = con.cursor()
         cur.execute("SELECT * FROM my_users")
@@ -88,6 +92,7 @@ class User(object):
         return jsonify({'Users': user_list}), 200
 
     def login(self, username, password):
+        """This is to check for a user and sign them in"""
         if self.invalid_user(username):
             con = dbcon()
             cur = con.cursor()
@@ -100,9 +105,11 @@ class User(object):
         return jsonify({"message":"Username not recognized Please register"})
 
 class Product(object):
-
+    """
+    This is a class for manipulating products
+    """
     def in_stoke(self, product_name):
-        #check if product is out of stoke
+        #check if product is in stoke
         con = dbcon()
         cur = con.cursor()
         cur.execute("SELECT * FROM products WHERE product_name=%(product_name)s",\
@@ -118,7 +125,7 @@ class Product(object):
         """Create new product"""
         con = dbcon()
         cur = con.cursor()
-        #if product already exists
+        #checks if product already exists
         cur.execute("SELECT * FROM products WHERE product_name=%(product_name)s",\
             {"product_name":product_name})
         available = cur.fetchall()
@@ -131,7 +138,7 @@ class Product(object):
         return make_response(jsonify({"message":"Product added in catalog"}),201)
 
     def modify_product(self, product_id,product_name,price,quantity):
-        """This function edits the order placed, takes user inputs in json form"""
+        """This function edits the product, takes user inputs in json form"""
         con = dbcon()
         cur = con.cursor()
         cur.execute("SELECT * FROM products WHERE product_id=%(product_id)s",\
@@ -146,6 +153,7 @@ class Product(object):
         return jsonify({"message":"Couldn't find product ID"})
 
     def delete_product(self, product_id):
+        """This function deletes a product"""
         con = dbcon()
         cur = con.cursor()
         cur.execute("SELECT * FROM products WHERE product_id=%(product_id)s",\
@@ -159,7 +167,7 @@ class Product(object):
         return jsonify({"message":"Couldn't find product ID"}) 
 
     def get_products(self):
-        """ fetch all products"""
+        """A unction to fetch all products"""
         con = dbcon()
         cur = con.cursor()
         cur.execute("SELECT * FROM products;")
@@ -200,13 +208,16 @@ class Product(object):
 
 
 class Sales(object):
+    """
+    This is a class to manipulate sales
+    """
     def create_record(self, attendant,product_name,price,quantity):
         """Create sales"""
         con = dbcon()
         cur = con.cursor()
         cur.execute("SELECT quantity FROM products WHERE product_name=%(product_name)s",\
             {'product_name':product_name})
-        #qty_left  checks if the product is in catalog
+        #qty_left  checks if the product is in catalog by getting its qty
         qty_left = cur.fetchone()
         if qty_left:
             cur.execute("INSERT INTO sales (attendant,product_name,price,quantity)\
