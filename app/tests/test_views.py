@@ -141,6 +141,12 @@ class TestProducts(TestApi):
   "price":"2000",
   "quantity":30
   }
+  nw_product={
+  "product_id":1,
+  "product_name":"jeans",
+  "price":"2000",
+  "quantity":30
+  }
   specific_prodct={
   "product_id":1,
   "product_name":"Denim",
@@ -205,6 +211,16 @@ class TestProducts(TestApi):
           content_type='application/json',
           headers={'Authorization': 'Bearer ' + admin_token})
         self.assertEqual( response.status_code, 200)
+
+  def test_cret_product(self):
+      """Test if a product is created"""
+      with self.app.app_context():
+        admin_token =  create_access_token(self.test_login_adm.get("username"))
+        response = self.client().post('/api/v2/products',
+        data=json.dumps(self.nw_product), 
+          content_type='application/json',
+        headers={'Authorization': 'Bearer ' + admin_token})
+        self.assertEqual( response.status_code, 201)
     
 class TestSales(TestApi):
   test_login_attendant={
@@ -218,21 +234,15 @@ class TestSales(TestApi):
   new_sales={
   "sales_id":1,
   "attendant":"masaa",
-  "product_name":"Denim",
+  "product_name":"jeans",
   "price":"2000",
   "quantity":30
   }
   specific_sales={
   "product_id":1,
   "attendant":"masaa",
-  "product_name":"Denim",
+  "product_name":"jeans",
   "price":"2000",
-  "quantity":30
-  }
-  delete_product={
-  "product_id":1,
-  "product_name":" ",
-  "price":" ",
   "quantity":30
   }
   def test_create_record(self):

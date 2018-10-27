@@ -101,6 +101,19 @@ class User(object):
 
 class Product(object):
 
+    def in_stoke(self, product_name):
+        #check if product is out of stoke
+        con = dbcon()
+        cur = con.cursor()
+        cur.execute("SELECT * FROM products WHERE product_name=%(product_name)s",\
+            {"product_name":product_name})
+        res = cur.fetchone()
+        if res:
+            if res[3] > 10:
+                return True
+            return False
+        return jsonify({"message":"Could not find product in catalog"})
+
     def create_product(self, product_name,price,quantity):
         """Create new product"""
         con = dbcon()
@@ -191,11 +204,21 @@ class Sales(object):
         """Create sales"""
         con = dbcon()
         cur = con.cursor()
-        cur.execute("INSERT INTO sales (attendant,product_name,price,quantity)\
-         VALUES (%(attendant)s,%(product_name)s,%(price)s,%(quantity)s);",\
-         {'attendant':attendant,'product_name':product_name,'price':price,'quantity':quantity})
-        con.commit()
-        return make_response(jsonify({"message":"New record created"}),201)
+        cur.execute("SELECT quantity FROM products WHERE product_name=%(product_name)s",\
+            {'product_name':product_name})
+        #qty_left  checks if the product is in catalog
+        qty_left = cur.fetchone()
+        if qty_left:
+            cur.execute("INSERT INTO sales (attendant,product_name,price,quantity)\
+             VALUES (%(attendant)s,%(product_name)s,%(price)s,%(quantity)s);",\
+             {'attendant':attendant,'product_name':product_name,'price':price,'quantity':quantity})
+            con.commit()
+            new_qty = qty_left[0] - quantity
+            cur.execute("UPDATE products SET quantity=%s WHERE product_name=%s",\
+                (new_qty,product_name))
+            con.commit()
+            return make_response(jsonify({"message":"New record created"}),201)
+        return jsonify({"message":"The product is not in catalog"}), 200
 
     def specific_record(self, sales_id):
         """The function gets a record specified by the id"""
