@@ -29,7 +29,7 @@ def validate_user( data):
 
 
 def validate_product(data):
-    """Check to validate user input """
+    """Check to validate product input from the user"""
     try:
         #check if the product name is provided
         if " " in data['product_name']:
@@ -51,7 +51,7 @@ def validate_product(data):
         return "please provide all the fields, missing " + str(error)
 
 def validate_sale(data):
-    """Check to validate user input """
+    """Check to validate sales records """
     try:
         #check if the product name is provided
         if " " in data['product_name']:
@@ -74,7 +74,7 @@ def validate_sale(data):
 
 @api2.route('/admin/signup', methods=['POST'])
 def reg_admin():
-  """method to place an order"""
+  """route to register the store owner"""
   data = request.get_json()
   res = validate_user(data)
   username = data['username']
@@ -92,7 +92,7 @@ def reg_admin():
 @api2.route('/attendant/signup', methods=["POST"])
 @jwt_required
 def reg():
-  """ Method to create user account."""
+  """route to create attendants account"""
   logedin = get_jwt_identity()
   adm=user_class.is_admin(logedin)
   if adm == True:
@@ -118,7 +118,7 @@ def all_users():
 
 @api2.route('/login', methods=["POST"])
 def login():
-    """ Method to login user """
+    """Route to login user """
     data = request.get_json()
     username = data['username']
     password = data['password']
@@ -132,7 +132,7 @@ Products
 @api2.route('/products', methods=['POST'])
 @jwt_required
 def add_product():
-  """method to create product"""
+  """Route to create product"""
   logedin = get_jwt_identity()
   adm=user_class.is_admin(logedin)
   if adm == True:
@@ -149,7 +149,7 @@ def add_product():
 @api2.route('/products/<int:product_id>', methods=['PUT'])
 @jwt_required
 def update_product(product_id, **kwargs):
-  """method for the admin to update order status"""
+  """Route for modifying a product"""
   logedin = get_jwt_identity()
   adm=user_class.is_admin(logedin)
   if adm == True:
@@ -167,7 +167,7 @@ def update_product(product_id, **kwargs):
 @api2.route('products/<int:product_id>', methods=["DELETE"])
 @jwt_required
 def delete_item(product_id, **kwargs):
-  """Route to delete a user from the db using the user name"""
+  """Route to delete a product from the db using the ID"""
   logedin = get_jwt_identity()
   adm=user_class.is_admin(logedin)
   if adm == True:
@@ -183,7 +183,7 @@ def all_products():
 @api2.route('products/<int:product_id>', methods=['GET'])
 @jwt_required
 def single_product(product_id, **kwargs):
-  """method to return a specific product"""
+  """Route to return a specific product"""
   result = product_class.specific_product(product_id)
   return result
 
@@ -195,7 +195,7 @@ Sales
 @api2.route('/sales', methods=['POST'])
 @jwt_required
 def add_record():
-  """method to create a sales record"""
+  """Route to create a sales record"""
   logedin = get_jwt_identity()
   adm=user_class.is_admin(logedin)
   if adm == False:
@@ -217,7 +217,7 @@ def add_record():
 @api2.route('/sales/<int:sales_id>', methods=['GET'])
 @jwt_required
 def specific(sales_id, **kwargs):
-  """method to return a specific sales record"""
+  """Route to return a specific sales record"""
   result = sales_class.specific_record(sales_id)
   if not result:
     return jsonify({"message":"could not find the specified record id"}), 400
