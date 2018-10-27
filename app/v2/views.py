@@ -50,6 +50,28 @@ def validate_product(data):
     except Exception as error:
         return "please provide all the fields, missing " + str(error)
 
+def validate_sale(data):
+    """Check to validate user input """
+    try:
+        #check if the product name is provided
+        if " " in data['product_name']:
+            return "Enter product name"
+        # Check for a reasonable product name
+        elif len(data['product_name']) < 2:
+            return "Invalid product name"
+        elif '@'  in data['product_name'] or '#'  in data['product_name']:
+          return "Product cant be special character"
+        # check if price for the product is valid
+        elif " " in data['price']:
+            return "Invalid product price"
+        # check if quantity is enough for stoke
+        elif data['quantity'] < 1:
+            return "Quantity should be atleast 1 item"
+        else:
+            return "valid"
+    except Exception as error:
+        return "please provide all the fields, missing " + str(error)
+
 @api2.route('/admin/signup', methods=['POST'])
 def reg_admin():
   """method to place an order"""
@@ -178,13 +200,17 @@ def add_record():
   adm=user_class.is_admin(logedin)
   if adm == False:
     data = request.get_json()
-    res = validate_product(data)
+    res = validate_sale(data)
     attendant = data['attendant']
     product_name = data['product_name']
     price = data['price']
     quantity = data['quantity']
     if res == 'valid':
-      return sales_class.create_record(attendant,product_name,price,quantity)
+        found = product_class.in_stoke(product_name)
+        #checks if the product is in stoke
+        if found == True:
+            return sales_class.create_record(attendant,product_name,price,quantity)
+        return jsonify({"message":"Product is out of stoke"})
     return jsonify({"message":res}), 400
   return jsonify({"message":"Only attendant can create record"}), 400
 
