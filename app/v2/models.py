@@ -268,5 +268,5 @@ class Sales(object):
             'quantity':a_sale[4]
             }
             sales_records.append(record)
-        return jsonify({"Orders": sales_records}), 200
+        return jsonify({"Records": sales_records}), 200
 
