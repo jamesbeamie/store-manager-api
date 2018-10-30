@@ -155,7 +155,7 @@ def update_product(product_id, **kwargs):
   if adm == True:
     product_details = request.get_json()
     res = validate_product(product_details)
-    product_name = product_details['product_name']
+    product_name = product_details['product_name']  
     price = product_details['price']
     quantity = product_details['quantity']
     if res == 'valid':
