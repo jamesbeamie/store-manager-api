@@ -16,7 +16,7 @@
 - PyTest, a python testing framework, _pip install PyTest_
 ## Running the tests
 - On your loocal branch, navigate to the root folder and run _pytest -v_ for tests.
-- To run tests with coverage, run _--cov=app/v1/_ to cover everything in v1 folder
+- To run tests with coverage, run _--cov=app/v2/_ to cover everything in v1 folder
 ## Deployment
 - Deploy the api on heroku.
 - Install gunicorn, and specify the application name in the procfile.
@@ -32,3 +32,4 @@
 - V2 is version one of the application
 ## Author
 - James Wafula
+
