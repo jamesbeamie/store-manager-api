@@ -2,6 +2,7 @@
 import os
 from flask import Flask
 from  flask_jwt_extended import JWTManager
+from flask_cors import CORS
 from datetime import timedelta
 
 # local imports
@@ -11,7 +12,7 @@ from .dbconect import init_db
 
 def create_app(config_name):
     app = Flask(__name__, instance_relative_config=True)
-
+    CORS(app)
     mykey = os.getenv('SECRET')
     app.config['JWT_SECRET_KEY']= mykey
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=50)

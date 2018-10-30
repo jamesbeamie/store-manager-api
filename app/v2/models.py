@@ -100,7 +100,9 @@ class User(object):
                 and password=%(password)s",{'username':username, 'password':password})
             user = cur.fetchone()
             if user:
-                return jsonify({"User token":create_access_token(username)}), 200
+                return jsonify({"Usertoken":create_access_token(username), \
+                    "message":"Logged in successfully", \
+                    "role":user[5]}), 200
             return jsonify({"message":"You entered a wrong password"})
         return jsonify({"message":"Username not recognized Please register"})
 
