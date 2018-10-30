@@ -43,7 +43,7 @@ def validate_product(data):
         elif " " in data['price']:
             return "Invalid product price"
         # check if quantity is enough for stoke
-        elif data['quantity'] < 10:
+        elif int(data['quantity']) < 10:
             return "Quantity not enough for stoke"
         else:
             return "valid"
