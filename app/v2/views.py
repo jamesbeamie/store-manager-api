@@ -65,7 +65,7 @@ def validate_sale(data):
         elif " " in data['price']:
             return "Invalid product price"
         # check if quantity is enough for stoke
-        elif data['quantity'] < 1:
+        elif int(data['quantity']) < 1:
             return "Quantity should be atleast 1 item"
         else:
             return "valid"
