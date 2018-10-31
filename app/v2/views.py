@@ -176,6 +176,7 @@ def delete_item(product_id, **kwargs):
   return jsonify({"message":"Restricted to admin only"})
 
 @api2.route('/products', methods=["GET"])
+@jwt_required
 def all_products():
   """Get all products"""
   return product_class.get_products()

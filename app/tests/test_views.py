@@ -185,9 +185,12 @@ class TestProducts(TestApi):
 
   def test_all_products(self):
       """Test return all products"""
-      response = self.client().get('/api/v2/products',
-        content_type='application/json',)
-      self.assertEqual( response.status_code, 200)
+      with self.app.app_context():
+        token = create_access_token(self.test_login_adm.get("username"))
+        response = self.client().get('/api/v2/products',
+          content_type='application/json',
+            headers={'Authorization': 'Bearer ' + token})
+        self.assertEqual( response.status_code, 200)
 
   def test_specific_product(self):
       """Test getting specific product"""
