@@ -201,7 +201,7 @@ def add_record():
   if adm == False:
     data = request.get_json()
     res = validate_sale(data)
-    attendant = data['attendant']
+    attendant = logedin
     product_name = data['product_name']
     price = data['price']
     quantity = data['quantity']
