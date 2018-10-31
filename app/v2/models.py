@@ -132,7 +132,7 @@ class Product(object):
             {"product_name":product_name})
         available = cur.fetchall()
         if available:
-            return make_response(jsonify({"Message":"Product already in stoke."})), 200
+            return make_response(jsonify({"message":"Product already in stoke."})), 200
         cur.execute("INSERT INTO products (product_name,price,quantity)\
          VALUES (%(product_name)s,%(price)s,%(quantity)s);",\
          {'product_name':product_name,'price':price,'quantity':quantity})
