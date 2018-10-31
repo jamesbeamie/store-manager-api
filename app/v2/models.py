@@ -226,7 +226,7 @@ class Sales(object):
              VALUES (%(attendant)s,%(product_name)s,%(price)s,%(quantity)s);",\
              {'attendant':attendant,'product_name':product_name,'price':price,'quantity':quantity})
             con.commit()
-            new_qty = qty_left[0] - quantity
+            new_qty = qty_left[0] - int(quantity)
             cur.execute("UPDATE products SET quantity=%s WHERE product_name=%s",\
                 (new_qty,product_name))
             con.commit()
