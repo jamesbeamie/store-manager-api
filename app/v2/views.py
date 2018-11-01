@@ -217,9 +217,9 @@ def add_record():
 
 @api2.route('/sales/<string:attendant>', methods=['GET'])
 @jwt_required
-def specific(sales_id, **kwargs):
+def specific(attendant, **kwargs):
   """Route to return a specific sales record"""
-  result = sales_class.specific_record(sales_id)
+  result = sales_class.specific_record(attendant)
   if not result:
     return jsonify({"message":"could not find sales by the specified attendant"}), 400
   return result
