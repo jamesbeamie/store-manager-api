@@ -215,13 +215,13 @@ def add_record():
     return jsonify({"message":res}), 400
   return jsonify({"message":"Only attendant can create record"}), 400
 
-@api2.route('/sales/<int:sales_id>', methods=['GET'])
+@api2.route('/sales/<string:attendant>', methods=['GET'])
 @jwt_required
 def specific(sales_id, **kwargs):
   """Route to return a specific sales record"""
   result = sales_class.specific_record(sales_id)
   if not result:
-    return jsonify({"message":"could not find the specified record id"}), 400
+    return jsonify({"message":"could not find sales by the specified attendant"}), 400
   return result
 
 @api2.route('/sales', methods=["GET"])

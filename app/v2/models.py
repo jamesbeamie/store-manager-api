@@ -199,7 +199,7 @@ class Product(object):
             my_product=[]
             for a_product in res:
                 product = {
-                'poduct_id':a_product[0],
+                'product_id':a_product[0],
                 'product_name':a_product[1],
                 'price':a_product[2],
                 'quantity':a_product[3]
@@ -224,7 +224,8 @@ class Sales(object):
         if qty_left:
             cur.execute("INSERT INTO sales (attendant,product_name,price,quantity)\
              VALUES (%(attendant)s,%(product_name)s,%(price)s,%(quantity)s);",\
-             {'attendant':attendant,'product_name':product_name,'price':price,'quantity':quantity})
+             {'attendant':attendant,'product_name':product_name,'price':price,\
+             'quantity':quantity})
             con.commit()
             new_qty = qty_left[0] - int(quantity)
             cur.execute("UPDATE products SET quantity=%s WHERE product_name=%s",\
@@ -233,12 +234,12 @@ class Sales(object):
             return make_response(jsonify({"message":"New record created"}),201)
         return jsonify({"message":"The product is not in catalog"}), 200
 
-    def specific_record(self, sales_id):
+    def specific_record(self, attendant):
         """The function gets a record specified by the id"""
         con = dbcon()
         cur = con.cursor()
-        cur.execute("SELECT * FROM sales WHERE sales_id=%(sales_id)s",\
-            {'sales_id':sales_id})
+        cur.execute("SELECT * FROM sales WHERE attendant=%(attendant)s",\
+            {'attendant':attendant})
         res = cur.fetchall()
         if res:
             sales_rec=[]
