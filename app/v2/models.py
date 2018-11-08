@@ -49,7 +49,7 @@ class User(object):
         row = cur.rowcount
         available = cur.fetchall()
         if available:
-            return make_response(jsonify({"Message":"Admin exists"})), 400
+            return make_response(jsonify({"message":"Admin exists"})), 400
         cur.execute("INSERT INTO my_users (username,password,confirmpass,addres,role) \
             VALUES (%(username)s,%(password)s,%(confirmpass)s,%(addres)s,%(role)s);",\
             {'username':username,'password':password, \
