@@ -102,7 +102,7 @@ class User(object):
             if user:
                 return jsonify({"Usertoken":create_access_token(username), \
                     "message":"Logged in successfully", \
-                    "role":user[5]}), 200
+                    "identity":user[1]}), 200
             return jsonify({"message":"You entered a wrong password"})
         return jsonify({"message":"Username not recognized Please register"})
 
