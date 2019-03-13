@@ -46,7 +46,7 @@ class User(object):
         #checks if admin already exists
         cur.execute("SELECT * FROM my_users WHERE role=%(role)s",\
             {"role":role})
-        row = cur.rowcount
+        # row = cur.rowcount
         available = cur.fetchall()
         if available:
             return make_response(jsonify({"message":"Admin exists"})), 400
