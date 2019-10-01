@@ -1,6 +1,6 @@
 
 [![Build Status](https://travis-ci.org/jamesbeamie/store-manager-api.svg?branch=master)](https://travis-ci.org/jamesbeamie/store-manager-api) [![Coverage Status](https://coveralls.io/repos/github/jamesbeamie/store-manager-api/badge.svg?branch=develop)](https://coveralls.io/github/jamesbeamie/store-manager-api?branch=develop)
-## Authors haven - A social platform for the creative at heart
+## Store manager - An online store to buy and sell clothings 
 - Store manager is an application for managing a boutique.The store deals in a wide range of clothes.
 - The owner of the store is the primary admin with the rights to add new product to inventory, view all sales records, edit and delete an existing product.
 - Store has attendants to serve the clients, who can search for products and add to cient's cart.
