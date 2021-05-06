@@ -5,7 +5,7 @@ autoenv==1.0.0
 Click==7.0
 colorama==0.4.0
 Flask==1.0.2
-Flask-Cors==3.0.6
+Flask-Cors==3.0.9
 Flask-DotEnv==0.1.1
 isort==4.3.4
 itsdangerous==0.24
