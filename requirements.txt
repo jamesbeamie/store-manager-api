@@ -24,7 +24,7 @@ pep8==1.7.1
 pluggy==0.7.1
 psycopg2==2.7.5
 py==1.7.0
-PyJWT==1.6.4
+PyJWT==2.4.0
 pylint==2.1.1
 pytest==3.8.2
 pytest-cov==2.6.0
